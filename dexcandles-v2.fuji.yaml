@@ -29,7 +29,7 @@ dataSources:
         - name: ERC20NameBytes
           file: ./abis/ERC20NameBytes.json
         - name: ERC20DecimalBytes
-          file: ./abis/ERC20DecimaleBytes.json
+          file: ./abis/ERC20DecimalBytes.json
       eventHandlers:
         - event: LBPairCreated(indexed address,indexed address,indexed uint256,address,uint256)
           handler: handleLBPairCreated
@@ -57,7 +57,7 @@ dataSources:
         - name: ERC20NameBytes
           file: ./abis/ERC20NameBytes.json
         - name: ERC20DecimalBytes
-          file: ./abis/ERC20DecimaleBytes.json
+          file: ./abis/ERC20DecimalBytes.json
       eventHandlers:
         - event: Swap(indexed address,indexed address,indexed uint24,uint256,uint256,uint256,uint256,uint256,uint256,uint256)
           handler: handleSwapV2
@@ -87,7 +87,7 @@ dataSources:
         - name: ERC20NameBytes
           file: ./abis/ERC20NameBytes.json
         - name: ERC20DecimalBytes
-          file: ./abis/ERC20DecimaleBytes.json
+          file: ./abis/ERC20DecimalBytes.json
       eventHandlers:
         - event: PairCreated(indexed address,indexed address,address,uint256)
           handler: handleV1PairCreated
@@ -115,7 +115,7 @@ dataSources:
         - name: ERC20NameBytes
           file: ./abis/ERC20NameBytes.json
         - name: ERC20DecimalBytes
-          file: ./abis/ERC20DecimaleBytes.json
+          file: ./abis/ERC20DecimalBytes.json
       eventHandlers:
         - event: Swap(indexed address,uint256,uint256,uint256,uint256,indexed address)
           handler: handleSwapV1
