@@ -10,3 +10,5 @@ export const candlestickPeriods: i32[] = [
 ];
 
 export const BIG_DECIMAL_ZERO = BigDecimal.fromString("0");
+export const NULL_CALL_RESULT_VALUE =
+  "0x0000000000000000000000000000000000000000000000000000000000000001";
