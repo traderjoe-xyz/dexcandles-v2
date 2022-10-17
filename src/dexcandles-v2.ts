@@ -3,8 +3,8 @@ import { Swap as SwapV1 } from "../generated/Pair/Pair";
 import { Swap as SwapV2 } from "../generated/LBPair/LBPair";
 import { Candle, LBPair, Pair } from "../generated/schema";
 import { loadToken } from "./entities";
-import { getPriceYOfBin, getAmountTraded } from "./utils/pricing";
-import { BIG_DECIMAL_ZERO, candlestickPeriods } from "./constants";
+import { getTokenYPriceOfBin, getAmountTraded } from "./utils/pricing";
+import { BIG_DECIMAL_ONE, BIG_DECIMAL_ZERO, candlestickPeriods } from "./constants";
 
 export function handleSwapV2(event: SwapV2): void {
   const lbPair = LBPair.load(event.address.toHexString());
@@ -15,13 +15,13 @@ export function handleSwapV2(event: SwapV2): void {
   const tokenX = loadToken(Address.fromString(lbPair.tokenX));
   const tokenY = loadToken(Address.fromString(lbPair.tokenY));
 
-  // use price in terms of token Y
-  const price = getPriceYOfBin(
+  const priceY = getTokenYPriceOfBin(
     BigInt.fromI32(event.params.id),
     lbPair.binStep,
     tokenX,
     tokenY
   );
+  const priceX = BIG_DECIMAL_ONE.div(priceY);
 
   for (let i = 0; i < candlestickPeriods.length; i++) {
     const timestamp = event.block.timestamp.toI32();
@@ -41,10 +41,10 @@ export function handleSwapV2(event: SwapV2): void {
       candle.tokenY = Address.fromString(tokenY.id);
       candle.tokenXTotalAmount = BIG_DECIMAL_ZERO;
       candle.tokenYTotalAmount = BIG_DECIMAL_ZERO;
-      candle.high = price;
-      candle.open = price;
-      candle.close = price;
-      candle.low = price;
+      candle.high = priceX;
+      candle.open = priceX;
+      candle.close = priceX;
+      candle.low = priceX;
     }
 
     const amountXTraded = getAmountTraded(
@@ -60,13 +60,13 @@ export function handleSwapV2(event: SwapV2): void {
     candle.tokenXTotalAmount = candle.tokenXTotalAmount.plus(amountXTraded);
     candle.tokenYTotalAmount = candle.tokenYTotalAmount.plus(amountYTraded);
 
-    if (price.lt(candle.low)) {
-      candle.low = price;
+    if (priceX.lt(candle.low)) {
+      candle.low = priceX;
     }
-    if (price.gt(candle.high)) {
-      candle.high = price;
+    if (priceX.gt(candle.high)) {
+      candle.high = priceX;
     }
-    candle.close = price;
+    candle.close = priceX;
     candle.lastBlock = event.block.timestamp.toI32();
 
     candle.save();

@@ -5,10 +5,12 @@ import { Token } from "../../generated/schema";
  * Returns the price of the bin given its id and bin step
  * (1 + binStep / 10_000) ** (id - 8388608)
  *
- * @param { BigInt } id
+ * @param { BigInt } binId
  * @param { BigInt } binStep
+ * @param { Token } tokenX
+ * @param { Token } tokenY
  */
-export function getPriceYOfBin(
+export function getTokenYPriceOfBin(
   binId: BigInt,
   binStep: BigInt,
   tokenX: Token,
