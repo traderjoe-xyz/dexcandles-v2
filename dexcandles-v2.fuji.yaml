@@ -9,7 +9,7 @@ dataSources:
     name: LBFactory # v2 factory
     network: fuji
     source:
-      address: "0x2950b9bd19152C91d69227364747b3e6EFC8Ab7F"
+      address: "0x6B8E020098cd1B3Ec9f811024bc24e51C660F768"
       abi: LBFactory
       startBlock: 14392417
     mapping:
@@ -59,7 +59,7 @@ dataSources:
         - name: ERC20NameBytes
           file: ./abis/ERC20NameBytes.json
       eventHandlers:
-        - event: Swap(indexed address,indexed address,indexed uint24,uint256,uint256,uint256,uint256,uint256,uint256,uint256)
+        - event: Swap(indexed address,indexed address,indexed uint256,bool,uint256,uint256,uint256,uint256)
           handler: handleSwapV2
       file: ./src/dexcandles-v2.ts
 

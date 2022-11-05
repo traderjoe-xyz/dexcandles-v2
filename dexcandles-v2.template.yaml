@@ -59,7 +59,7 @@ dataSources:
         - name: ERC20NameBytes
           file: ./abis/ERC20NameBytes.json
       eventHandlers:
-        - event: Swap(indexed address,indexed address,indexed uint24,uint256,uint256,uint256,uint256,uint256,uint256,uint256)
+        - event: Swap(indexed address,indexed address,indexed uint256,bool,uint256,uint256,uint256,uint256)
           handler: handleSwapV2
       file: ./src/dexcandles-v2.ts
 

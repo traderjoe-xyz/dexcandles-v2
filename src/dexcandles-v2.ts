@@ -1,4 +1,4 @@
-import { Address, BigDecimal, BigInt } from "@graphprotocol/graph-ts";
+import { Address, BigDecimal } from "@graphprotocol/graph-ts";
 import { Swap as SwapV1 } from "../generated/Pair/Pair";
 import { Swap as SwapV2 } from "../generated/LBPair/LBPair";
 import { Candle, LBPair, Pair } from "../generated/schema";
@@ -16,7 +16,7 @@ export function handleSwapV2(event: SwapV2): void {
   const tokenY = loadToken(Address.fromString(lbPair.tokenY));
 
   const priceY = getTokenYPriceOfBin(
-    BigInt.fromI32(event.params.id),
+    event.params.id,
     lbPair.binStep,
     tokenX,
     tokenY
@@ -47,16 +47,16 @@ export function handleSwapV2(event: SwapV2): void {
       candle.low = priceX;
     }
 
-    const amountXTraded = getAmountTraded(
-      event.params.amountXIn,
-      event.params.amountXOut,
-      tokenX.decimals
-    );
-    const amountYTraded = getAmountTraded(
-      event.params.amountYIn,
-      event.params.amountYOut,
-      tokenY.decimals
-    );
+    const amountXTraded = (event.params.swapForY 
+      ? event.params.amountIn 
+      : event.params.amountOut)
+      .divDecimal(BigDecimal.fromString(tokenX.decimals.toString()))
+
+    const amountYTraded = (event.params.swapForY 
+        ? event.params.amountOut
+        : event.params.amountIn)
+        .divDecimal(BigDecimal.fromString(tokenY.decimals.toString()))
+
     candle.tokenXTotalAmount = candle.tokenXTotalAmount.plus(amountXTraded);
     candle.tokenYTotalAmount = candle.tokenYTotalAmount.plus(amountYTraded);
 
