@@ -17,6 +17,9 @@ $ yarn prepare:avax
 $ yarn codegen:avax
 $ yarn build:avax
 
+# authenticate
+$ graph auth --product hosted-service
+
 # deploy to avax. change to your own graph endpoint
 $ yarn deploy:avax
 ```
