@@ -1,7 +1,7 @@
 {
   "network": "avalanche",
-  "startBlockV2": 0,
-  "startBlockV1": 0,
-  "factoryV2": "",
-  "factoryV1": ""
+  "startBlockV2": 22212933,
+  "startBlockV1": 18212933,
+  "factoryV2": "0x4Fa8f706Fb49F4cbd49e01D41A8554FE4100E667",
+  "factoryV1": "0x9Ad6C38BE94206cA50bb0d90783181662f0Cfa10"
 }
