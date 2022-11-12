@@ -1,4 +1,4 @@
-import { BigDecimal } from "@graphprotocol/graph-ts";
+import { BigDecimal, BigInt } from "@graphprotocol/graph-ts";
 
 export const candlestickPeriods: i32[] = [
   5 * 60, // 5m
@@ -9,6 +9,7 @@ export const candlestickPeriods: i32[] = [
   7 * 24 * 60 * 60, // 1w
 ];
 
+export const BIG_INT_ZERO = BigInt.fromI32(0);
 export const BIG_DECIMAL_ONE = BigDecimal.fromString("1");
 export const BIG_DECIMAL_ZERO = BigDecimal.fromString("0");
 export const NULL_CALL_RESULT_VALUE =
