@@ -29,11 +29,11 @@ type Candle @entity {
   period: Int!
   lastBlock: Int!
 
-  tokenX: Bytes!
-  tokenY: Bytes!
+  token0: Bytes!
+  token1: Bytes!
 
-  tokenXTotalAmount: BigDecimal!
-  tokenYTotalAmount: BigDecimal!
+  token0TotalAmount: BigInt!
+  token1TotalAmount: BigInt!
 
   high: BigDecimal!
   open: BigDecimal!
