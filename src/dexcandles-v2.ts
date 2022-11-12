@@ -1,8 +1,8 @@
 import { Address, BigDecimal } from "@graphprotocol/graph-ts";
 import { Swap as SwapV1 } from "../generated/Pair/Pair";
 import { Swap as SwapV2 } from "../generated/LBPair/LBPair";
-import { Candle, LBPair, Pair } from "../generated/schema";
-import { loadToken } from "./entities";
+import { Candle, LBPair } from "../generated/schema";
+import { loadToken, loadV1Pair } from "./entities";
 import { getTokenYPriceOfBin, getAmountTraded } from "./utils/pricing";
 import { BIG_DECIMAL_ONE, BIG_DECIMAL_ZERO, candlestickPeriods } from "./constants";
 
@@ -74,7 +74,7 @@ export function handleSwapV2(event: SwapV2): void {
 }
 
 export function handleSwapV1(event: SwapV1): void {
-  const v1Pair = Pair.load(event.address.toHexString());
+  const v1Pair = loadV1Pair(event.address);
   if (!v1Pair) {
     return;
   }
