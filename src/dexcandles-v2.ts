@@ -16,7 +16,7 @@ export function handleSwapV2(event: SwapV2): void {
   const tokenY = loadToken(Address.fromString(lbPair.tokenY));
 
   // init token0/token1 to match with V1Pair's tokens order
-  const isSorted = tokenX.id < tokenY.id; // if true, order of tokens matches V1Pair
+  const isSorted = tokenX.id.toLowerCase() < tokenY.id.toLowerCase(); // if true, order of tokens matches V1Pair
   const token0 = isSorted ? tokenX : tokenY;
   const token1 = isSorted ? tokenY : tokenX;
 
@@ -35,8 +35,8 @@ export function handleSwapV2(event: SwapV2): void {
   const price = isSorted ? priceX : priceY;
 
   // debug log
-  log.warning("[handleSwapV2] token0 {} / token1 {}", [token0.id, token1.id])
-  log.warning("[handleSwapV2] price {}", [price.toString()])
+  log.warning("[handleSwapV2] token0 {} / token1 {}", [token0.id, token1.id]);
+  log.warning("[handleSwapV2] price {}", [price.toString()]);
 
   for (let i = 0; i < candlestickPeriods.length; i++) {
     const timestamp = event.block.timestamp.toI32();
@@ -44,8 +44,8 @@ export function handleSwapV2(event: SwapV2): void {
     const candleId = periodStart
       .toString()
       .concat(candlestickPeriods[i].toString())
-      .concat(tokenX.id)
-      .concat(tokenY.id);
+      .concat(token0.id)
+      .concat(token1.id);
 
     let candle = Candle.load(candleId);
     if (!candle) {
