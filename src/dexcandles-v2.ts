@@ -1,4 +1,5 @@
-import { Address, BigInt, log } from "@graphprotocol/graph-ts";
+import { Address, BigInt, Bytes } from "@graphprotocol/graph-ts";
+import { concat } from "@graphprotocol/graph-ts/helper-functions";
 import { Swap as SwapV1 } from "../generated/Pair/Pair";
 import { Swap as SwapV2 } from "../generated/LBPair/LBPair";
 import { Candle, LBPair } from "../generated/schema";
@@ -34,23 +35,23 @@ export function handleSwapV2(event: SwapV2): void {
   // price in token0
   const price = isSorted ? priceX : priceY;
 
-  // debug log
-  log.warning("[handleSwapV2] token0 {} / token1 {}", [token0.id, token1.id]);
-  log.warning("[handleSwapV2] price {}", [price.toString()]);
+  const tokens = concat(
+    Address.fromString(token0.id),
+    Address.fromString(token1.id)
+  );
+  const timestamp = event.block.timestamp.toI32();
 
   for (let i = 0; i < candlestickPeriods.length; i++) {
-    const timestamp = event.block.timestamp.toI32();
-    const periodStart = timestamp - (timestamp % candlestickPeriods[i]);
-    const candleId = periodStart
-      .toString()
-      .concat(candlestickPeriods[i].toString())
-      .concat(token0.id)
-      .concat(token1.id);
+    const timeId = timestamp / candlestickPeriods[i];
+    const candleId = concat(
+      concat(Bytes.fromI32(timeId), Bytes.fromI32(candlestickPeriods[i])),
+      tokens
+    ).toHex();
 
     let candle = Candle.load(candleId);
-    if (!candle) {
+    if (candle === null) {
       candle = new Candle(candleId);
-      candle.time = periodStart;
+      candle.time = timestamp - (timestamp % candlestickPeriods[i]); // Round to the nearest time period
       candle.period = candlestickPeriods[i];
       candle.token0 = Address.fromString(token0.id);
       candle.token1 = Address.fromString(token1.id);
@@ -60,30 +61,29 @@ export function handleSwapV2(event: SwapV2): void {
       candle.open = price;
       candle.close = price;
       candle.low = price;
+    } else {
+      if (price < candle.low) {
+        candle.low = price;
+      }
+      if (price > candle.high) {
+        candle.high = price;
+      }
     }
 
     const amountXTraded = event.params.swapForY
       ? getAmountTraded(event.params.amountIn, BIG_INT_ZERO, tokenX.decimals)
       : getAmountTraded(BIG_INT_ZERO, event.params.amountOut, tokenX.decimals);
     const amountYTraded = event.params.swapForY
-      ? getAmountTraded(BIG_INT_ZERO, event.params.amountOut, tokenX.decimals)
-      : getAmountTraded(event.params.amountIn, BIG_INT_ZERO, tokenX.decimals);
+      ? getAmountTraded(BIG_INT_ZERO, event.params.amountOut, tokenY.decimals)
+      : getAmountTraded(event.params.amountIn, BIG_INT_ZERO, tokenY.decimals);
 
     const amount0Traded = isSorted ? amountXTraded : amountYTraded;
     const amount1Traded = isSorted ? amountYTraded : amountXTraded;
 
-    candle.token0TotalAmount = candle.token0TotalAmount.plus(amount0Traded);
-    candle.token1TotalAmount = candle.token1TotalAmount.plus(amount1Traded);
-
-    if (price.lt(candle.low)) {
-      candle.low = price;
-    }
-    if (price.gt(candle.high)) {
-      candle.high = price;
-    }
     candle.close = price;
     candle.lastBlock = event.block.timestamp.toI32();
-
+    candle.token0TotalAmount = candle.token0TotalAmount.plus(amount0Traded);
+    candle.token1TotalAmount = candle.token1TotalAmount.plus(amount1Traded);
     candle.save();
   }
 }
@@ -113,20 +113,23 @@ export function handleSwapV1(event: SwapV1): void {
   }
 
   const price = amount0Traded.divDecimal(amount1Traded.toBigDecimal());
+  const tokens = concat(
+    Address.fromString(token0.id),
+    Address.fromString(token1.id)
+  );
+  const timestamp = event.block.timestamp.toI32();
 
   for (let i = 0; i < candlestickPeriods.length; i++) {
-    const timestamp = event.block.timestamp.toI32();
-    const periodStart = timestamp - (timestamp % candlestickPeriods[i]);
-    const candleId = periodStart
-      .toString()
-      .concat(candlestickPeriods[i].toString())
-      .concat(token0.id)
-      .concat(token1.id);
+    const timeId = timestamp / candlestickPeriods[i];
+    const candleId = concat(
+      concat(Bytes.fromI32(timeId), Bytes.fromI32(candlestickPeriods[i])),
+      tokens
+    ).toHex();
 
     let candle = Candle.load(candleId);
-    if (!candle) {
+    if (candle === null) {
       candle = new Candle(candleId);
-      candle.time = periodStart;
+      candle.time = timestamp - (timestamp % candlestickPeriods[i]); // Round to the nearest time period
       candle.period = candlestickPeriods[i];
       candle.token0 = Address.fromString(token0.id);
       candle.token1 = Address.fromString(token1.id);
@@ -136,20 +139,19 @@ export function handleSwapV1(event: SwapV1): void {
       candle.open = price;
       candle.close = price;
       candle.low = price;
+    } else {
+      if (price < candle.low) {
+        candle.low = price;
+      }
+      if (price > candle.high) {
+        candle.high = price;
+      }
     }
 
-    candle.token0TotalAmount = candle.token0TotalAmount.plus(amount0Traded);
-    candle.token1TotalAmount = candle.token1TotalAmount.plus(amount1Traded);
-
-    if (price.lt(candle.low)) {
-      candle.low = price;
-    }
-    if (price.gt(candle.high)) {
-      candle.high = price;
-    }
     candle.close = price;
     candle.lastBlock = event.block.timestamp.toI32();
-
+    candle.token0TotalAmount = candle.token0TotalAmount.plus(amount0Traded);
+    candle.token1TotalAmount = candle.token1TotalAmount.plus(amount1Traded);
     candle.save();
   }
 }
