@@ -1,4 +1,4 @@
-import { Address, BigInt } from "@graphprotocol/graph-ts";
+import { Address, BigInt, log } from "@graphprotocol/graph-ts";
 import { Swap as SwapV1 } from "../generated/Pair/Pair";
 import { Swap as SwapV2 } from "../generated/LBPair/LBPair";
 import { Candle, LBPair } from "../generated/schema";
@@ -33,6 +33,10 @@ export function handleSwapV2(event: SwapV2): void {
 
   // price in token0
   const price = isSorted ? priceX : priceY;
+
+  // debug log
+  log.warning("[handleSwapV2] token0 {} / token1 {}", [token0.id, token1.id])
+  log.warning("[handleSwapV2] price {}", [price.toString()])
 
   for (let i = 0; i < candlestickPeriods.length; i++) {
     const timestamp = event.block.timestamp.toI32();
