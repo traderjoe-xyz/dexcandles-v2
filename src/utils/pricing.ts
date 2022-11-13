@@ -46,22 +46,36 @@ export function getTokenYPriceOfBin(
 }
 
 /**
- * Returns the total amount traded given the amount in
- * and amout out of an LBPair
+ * Returns the total amount traded in 18 decimals precision
  *
  * @param { BigInt } amountIn
  * @param { BigInt } amountOut
  * @param { BigInt } decimals
- * @returns { BigDecimal }
+ * @returns { BigInt }
  */
 export function getAmountTraded(
   amountIn: BigInt,
   amountOut: BigInt,
   tokenDecimals: BigInt
-): BigDecimal {
-  const decimals = BigDecimal.fromString(tokenDecimals.toString());
-  return amountIn
-    .minus(amountOut)
-    .abs()
-    .divDecimal(decimals);
+): BigInt {
+  const exponent = BigInt.fromI32(18).minus(tokenDecimals);
+  if (exponent >= BigInt.fromI32(0)) {
+    const multiplier = BigInt.fromString(
+      BigDecimal.fromString("1e" + exponent.toString()).toString()
+    );
+    return amountIn
+      .minus(amountOut)
+      .abs()
+      .times(multiplier);
+  } else {
+    const divider = BigInt.fromString(
+      BigDecimal.fromString(
+        "1e" + exponent.times(BigInt.fromI32(-1)).toString()
+      ).toString()
+    );
+    return amountIn
+      .minus(amountOut)
+      .abs()
+      .div(divider);
+  }
 }
