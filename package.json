@@ -4,12 +4,16 @@
   "scripts": {
     "prepare:avax": "mustache config/avax.json dexcandles-v2.template.yaml > dexcandles-v2.avax.yaml",
     "prepare:fuji": "mustache config/fuji.json dexcandles-v2.template.yaml > dexcandles-v2.fuji.yaml",
+    "prepare:arbgoerli": "mustache config/arbgoerli.json dexcandles-v2.template.yaml > dexcandles-v2.arbgoerli.yaml",
     "codegen:avax": "graph codegen dexcandles-v2.avax.yaml",
     "codegen:fuji": "graph codegen dexcandles-v2.fuji.yaml",
+    "codegen:arbgoerli": "graph codegen dexcandles-v2.arbgoerli.yaml",
     "build:avax": "graph build dexcandles-v2.avax.yaml",
     "build:fuji": "graph build dexcandles-v2.fuji.yaml",
+    "build:arbgoerli": "graph build dexcandles-v2.arbgoerli.yaml",
     "deploy:avax": "graph deploy --node https://api.thegraph.com/deploy/ traderjoe-xyz/dex-candles-v2 dexcandles-v2.avax.yaml",
     "deploy:fuji": "graph deploy --node https://api.thegraph.com/deploy/ traderjoe-xyz/dex-candles-v2-fuji dexcandles-v2.fuji.yaml",
+    "deploy:arbgoerli": "graph deploy --node https://api.thegraph.com/deploy/ traderjoe-xyz/dexcandles-v2-arb-goerli dexcandles-v2.arbgoerli.yaml",
     "create-local": "graph create --node http://localhost:8020/ traderjoe-xyz/dex-candles-v2-fuji",
     "remove-local": "graph remove --node http://localhost:8020/ traderjoe-xyz/dex-candles-v2-fuji",
     "deploy-local": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 traderjoe-xyz/dex-candles-v2-fuji"
