@@ -10,6 +10,18 @@ export function loadV1Pair(address: Address): PairV1 | null {
   if (!v1Pair) {
     const pair = PairContract.bind(address);
 
+    // check factory
+    const factory_addr = pair.try_factory()
+    if (factory_addr.reverted) {
+      log.info("[loadV1Pair] try_factory reverted", []);
+      return null;
+    }
+
+    if (!factory_addr.value.equals(V1_FACTORY_ADDRESS)){
+      log.info("[loadV1Pair] wrong factory address {}", [factory_addr.value.toHexString()]);
+      return null;
+    } 
+    
     // get token0
     const token0Result = pair.try_token0();
     if (token0Result.reverted) {
@@ -23,19 +35,6 @@ export function loadV1Pair(address: Address): PairV1 | null {
       log.info("[loadV1Pair] try_token1 reverted", []);
       return null;
     }
-
-    // check factory
-    const factory_addr = pair.try_factory()
-    if (token1Result.reverted) {
-      log.info("[loadV1Pair] try_factory reverted", []);
-      return null;
-    }
-
-    if (!factory_addr.value.equals(V1_FACTORY_ADDRESS)){
-      log.info("[loadV1Pair] wrong factory address", []);
-      return null;
-    }
-
 
     // create Tokens
     const token0 = loadToken(token0Result.value);
