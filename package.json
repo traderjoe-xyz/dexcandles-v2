@@ -6,18 +6,22 @@
     "prepare:fuji": "mustache config/fuji.json dexcandles-v2.template.yaml > dexcandles-v2.fuji.yaml && mustache config/fuji.json src/constants/index.template.ts > src/constants/index.ts",
     "prepare:arbgoerli": "mustache config/arbgoerli.json dexcandles-v2.template.yaml > dexcandles-v2.arbgoerli.yaml && mustache config/arbgoerli.json src/constants/index.template.ts > src/constants/index.ts",
     "prepare:arbitrum": "mustache config/arbitrum.json dexcandles-v2.template.yaml > dexcandles-v2.arbitrum.yaml && mustache config/arbitrum.json src/constants/index.template.ts > src/constants/index.ts",
+    "prepare:bsc": "mustache config/bsc.json dexcandles-v2.template.yaml > dexcandles-v2.bsc.yaml && mustache config/bsc.json src/constants/index.template.ts > src/constants/index.ts",
     "codegen:avax": "graph codegen dexcandles-v2.avax.yaml",
     "codegen:fuji": "graph codegen dexcandles-v2.fuji.yaml",
     "codegen:arbgoerli": "graph codegen dexcandles-v2.arbgoerli.yaml",
     "codegen:arbitrum": "graph codegen dexcandles-v2.arbitrum.yaml",
+    "codegen:bsc": "graph codegen dexcandles-v2.bsc.yaml",
     "build:avax": "graph build dexcandles-v2.avax.yaml",
     "build:fuji": "graph build dexcandles-v2.fuji.yaml",
     "build:arbgoerli": "graph build dexcandles-v2.arbgoerli.yaml",
     "build:arbitrum": "graph build dexcandles-v2.arbitrum.yaml",
+    "build:bsc": "graph build dexcandles-v2.bsc.yaml",
     "deploy:avax": "graph deploy --node https://api.thegraph.com/deploy/ traderjoe-xyz/dex-candles-v2 dexcandles-v2.avax.yaml",
     "deploy:fuji": "graph deploy --node https://api.thegraph.com/deploy/ traderjoe-xyz/dex-candles-v2-fuji dexcandles-v2.fuji.yaml",
     "deploy:arbgoerli": "graph deploy --node https://api.thegraph.com/deploy/ traderjoe-xyz/dexcandles-v2-arb-goerli dexcandles-v2.arbgoerli.yaml",
     "deploy:arbitrum": "graph deploy --node https://api.thegraph.com/deploy/ traderjoe-xyz/dexcandles-v2-arbitrum dexcandles-v2.arbitrum.yaml",
+    "deploy:bsc": "graph deploy --node https://api.thegraph.com/deploy/ traderjoe-xyz/dexcandles-v2-bnb dexcandles-v2.bsc.yaml",
     "create-local": "graph create --node http://localhost:8020/ traderjoe-xyz/dex-candles-v2-fuji",
     "remove-local": "graph remove --node http://localhost:8020/ traderjoe-xyz/dex-candles-v2-fuji",
     "deploy-local": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 traderjoe-xyz/dex-candles-v2-fuji"
@@ -27,7 +31,7 @@
     "@graphprotocol/graph-ts": "0.27.0",
     "mustache": "^4.2.0"
   },
-  "repository": "https://github.com/traderjoe-xyz/joe-subgraph-v2.git",
+  "repository": "https://github.com/traderjoe-xyz/joe-dexcandles-v2.git",
   "author": "traderjoexyz",
   "license": "MIT"
 }
