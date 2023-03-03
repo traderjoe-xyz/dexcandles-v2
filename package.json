@@ -21,7 +21,7 @@
     "deploy:fuji": "graph deploy --node https://api.thegraph.com/deploy/ traderjoe-xyz/dex-candles-v2-fuji dexcandles-v2.fuji.yaml",
     "deploy:arbgoerli": "graph deploy --node https://api.thegraph.com/deploy/ traderjoe-xyz/dexcandles-v2-arb-goerli dexcandles-v2.arbgoerli.yaml",
     "deploy:arbitrum": "graph deploy --node https://api.thegraph.com/deploy/ traderjoe-xyz/dexcandles-v2-arbitrum dexcandles-v2.arbitrum.yaml",
-    "deploy:bsc": "graph deploy --node https://api.thegraph.com/deploy/ traderjoe-xyz/dexcandles-v2-bnb dexcandles-v2.bsc.yaml",
+    "deploy:bsc": "graph deploy --node https://api.thegraph.com/deploy/ traderjoe-xyz/dexcandles-v2-bnb dexcandles-v2.bsc.yaml --access-token 8948fe26a7f94daca75fd7c62b6319fb",
     "create-local": "graph create --node http://localhost:8020/ traderjoe-xyz/dex-candles-v2-fuji",
     "remove-local": "graph remove --node http://localhost:8020/ traderjoe-xyz/dex-candles-v2-fuji",
     "deploy-local": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 traderjoe-xyz/dex-candles-v2-fuji"
