@@ -1,7 +1,19 @@
 import { LBPairCreated } from "../generated/LBFactory/LBFactory";
 import { PairCreated } from "../generated/Factory/Factory";
-import { LBPair, Pair as PairV1 } from "../generated/schema";
+import { LBPair, LBPairV21, Pair as PairV1 } from "../generated/schema";
 import { loadToken } from "./entities";
+
+export function handleLBPairCreatedV21(event: LBPairCreated): void {
+  const lbPair = new LBPairV21(event.params.LBPair.toHexString());
+  const tokenX = loadToken(event.params.tokenX);
+  const tokenY = loadToken(event.params.tokenY);
+
+  lbPair.tokenX = tokenX.id;
+  lbPair.tokenY = tokenY.id;
+  lbPair.binStep = event.params.binStep;
+
+  lbPair.save();
+}
 
 export function handleLBPairCreated(event: LBPairCreated): void {
   const lbPair = new LBPair(event.params.LBPair.toHexString());
