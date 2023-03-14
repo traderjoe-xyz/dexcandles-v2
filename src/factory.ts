@@ -1,9 +1,10 @@
+import { LBPairCreated as LBPairCreatedV21 } from "../generated/LBFactoryV21/LBFactoryV21";
 import { LBPairCreated } from "../generated/LBFactory/LBFactory";
 import { PairCreated } from "../generated/Factory/Factory";
 import { LBPair, LBPairV21, Pair as PairV1 } from "../generated/schema";
 import { loadToken } from "./entities";
 
-export function handleLBPairCreatedV21(event: LBPairCreated): void {
+export function handleLBPairCreatedV21(event: LBPairCreatedV21): void {
   const lbPair = new LBPairV21(event.params.LBPair.toHexString());
   const tokenX = loadToken(event.params.tokenX);
   const tokenY = loadToken(event.params.tokenY);
