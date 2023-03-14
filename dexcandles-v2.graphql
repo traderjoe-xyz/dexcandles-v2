@@ -23,6 +23,15 @@ type LBPair @entity {
   binStep: BigInt!
 }
 
+type LBPairV21 @entity {
+  id: ID!
+
+  # mirrored from smart contract
+  tokenX: Token!
+  tokenY: Token!
+  binStep: BigInt!
+}
+
 type Candle @entity {
   id: ID! # period start timestamp + tokenX + tokenY
   time: Int!
