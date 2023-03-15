@@ -9,9 +9,9 @@ dataSources:
     name: LBFactoryV21 # v2.1 factory
     network: fuji
     source:
-      address: "0x198aDA8Bc6E544F863Cd469CE20caB9a24b72917"
+      address: "0x58c38481Cef567FE4d8D568308f40d43fa12Db23"
       abi: LBFactoryV21
-      startBlock: 19120011
+      startBlock: 19854859
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.6
@@ -40,7 +40,7 @@ dataSources:
     network: fuji
     source:
       abi: LBPairV21
-      startBlock: 19120011
+      startBlock: 19854859
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.6
