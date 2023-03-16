@@ -76,9 +76,11 @@ export function handleSwapV21(event: SwapV21): void {
     const amountInY = decodeY(event.params.amountsIn)
     const amountOutX = decodeX(event.params.amountsOut)
     const amountOutY = decodeY(event.params.amountsOut)
-    const amountXTraded = amountInX.plus(amountOutX)
-    const amountYTraded = amountInY.plus(amountOutY)
-    log.info("[swapV21] amountIn: [X: {}, Y: {}], amountOut: [X: {}, Y: {}]", [amountInX.toString(), amountOutX.toString(), amountInY.toString(), amountOutY.toString()])
+
+    const amountXTraded = getAmountTraded(amountInX, amountOutX, tokenX.decimals)
+    const amountYTraded = getAmountTraded(amountInY, amountOutY, tokenY.decimals)
+
+    log.info("[swapV21] amountXTraded: {}, amountYTraded: {}", [amountXTraded.toString(), amountYTraded.toString(), amountInY.toString(), amountOutY.toString()])
     
     const amount0Traded = isSorted ? amountXTraded : amountYTraded;
     const amount1Traded = isSorted ? amountYTraded : amountXTraded;
@@ -242,13 +244,10 @@ export function handleSwapV1(event: SwapV1): void {
 
 
 // amountsIn is [amountX, amountY] packed into byte32
-// amountX: amounts[0...7], amountY: amounts[8...15]
 function decodeX(packedAmounts: Bytes): BigInt {
-  const s = packedAmounts.toHexString()
-  return BigInt.fromString(s.substr(0,32))
+  return BigInt.fromUnsignedBytes(packedAmounts).bitAnd(BigInt.fromI32(2**128-1))
 }
 
 function decodeY(packedAmounts: Bytes): BigInt {
-  const s = packedAmounts.toHexString()
-  return BigInt.fromString(s.substr(32,32))
+  return BigInt.fromUnsignedBytes(packedAmounts).rightShift(128)
 }
