@@ -245,7 +245,7 @@ export function handleSwapV1(event: SwapV1): void {
 
 // amountsIn is [amountX, amountY] packed into byte32
 function decodeX(packedAmounts: Bytes): BigInt {
-  return BigInt.fromUnsignedBytes(packedAmounts).bitAnd(BigInt.fromI32(2**128-1))
+  return BigInt.fromUnsignedBytes(packedAmounts).bitAnd(BigInt.fromI32(2).pow(128).minus(BigInt.fromI32(1)))
 }
 
 function decodeY(packedAmounts: Bytes): BigInt {
