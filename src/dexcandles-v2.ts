@@ -42,6 +42,10 @@ export function handleSwapV21(event: SwapV21): void {
   );
   const timestamp = event.block.timestamp.toI32();
 
+  // reverse bytes to convert to big endianness
+  event.params.amountsIn.reverse()
+  event.params.amountsOut.reverse()
+
   for (let i = 0; i < candlestickPeriods.length; i++) {
     const timeId = timestamp / candlestickPeriods[i];
     const candleId = concat(
