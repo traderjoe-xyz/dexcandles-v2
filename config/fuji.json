@@ -1,9 +1,9 @@
 {
   "network": "fuji",
-  "startBlockV21": 19854859,
+  "startBlockV21": 20579623,
   "startBlockV2": 15428450,
   "startBlockV1": 15128450,
-  "factoryV21": "0x58c38481Cef567FE4d8D568308f40d43fa12Db23",
+  "factoryV21": "0x8e42f2F4101563bF679975178e880FD87d3eFd4e",
   "factoryV2": "0x6B8E020098cd1B3Ec9f811024bc24e51C660F768",
   "factoryV1": "0xF5c7d9733e5f53abCC1695820c4818C59B457C2C"
 }
