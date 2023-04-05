@@ -1,7 +1,9 @@
 {
     "network": "chapel",
+    "startBlockV21": 28624313,
     "startBlockV2": 27676436,
     "startBlockV1": 27676436,
+    "factoryV21": "0x8e42f2F4101563bF679975178e880FD87d3eFd4e",
     "factoryV2": "0xE082a032Fa1cE68b24594bee0fC57DfE819D107c",
     "factoryV1": "0x4f953EFDbcE2B8CAe76e5b4779A682d9ab0c941c"
 }

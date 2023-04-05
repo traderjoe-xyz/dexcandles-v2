@@ -1,7 +1,9 @@
 {
     "network": "arbitrum-goerli",
+    "startBlockV21": 14948040,
     "startBlockV2": 2381070,
     "startBlockV1": 2371988,
+    "factoryV21": "0x8e42f2F4101563bF679975178e880FD87d3eFd4e",
     "factoryV2": "0xC8Af41e49e2C03eA14706C7aa9cEE60454bc5c03",
     "factoryV1": "0x1886D09C9Ade0c5DB822D85D21678Db67B6c2982"
 }
