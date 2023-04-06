@@ -1,7 +1,9 @@
 {
   "network": "arbitrum-one",
+  "startBlockV21": 77473199,
   "startBlockV2": 47891979,
   "startBlockV1": 47838075,
+  "factoryV21": "0x8e42f2F4101563bF679975178e880FD87d3eFd4e",
   "factoryV2": "0x1886D09C9Ade0c5DB822D85D21678Db67B6c2982",
   "factoryV1": "0xaE4EC9901c3076D0DdBe76A520F9E90a6227aCB7"
 }

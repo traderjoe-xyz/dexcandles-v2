@@ -1,7 +1,9 @@
 {
     "network": "bsc",
+    "startBlockV21": 27099340,
     "startBlockV2": 26153438,
     "startBlockV1": 26142762,
+    "factoryV21": "0x8e42f2F4101563bF679975178e880FD87d3eFd4e",
     "factoryV2": "0x43646A8e839B2f2766392C1BF8f60F6e587B6960",
     "factoryV1": "0x4f8bdc85E3eec5b9dE67097c3f59B6Db025d9986"
 }
