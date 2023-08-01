@@ -1,0 +1,64 @@
+specVersion: 0.0.4
+description: Joe-v2 trades candles (5m/15m/1h/4h/1d/1w)
+repository: https://github.com/traderjoe-xyz/dexcandles-v2
+schema:
+  file: ./dexcandles-v2.graphql
+dataSources:
+  # V2.1 data sources
+  - kind: ethereum/contract
+    name: LBFactoryV21 # v2.1 factory
+    network: {{ network }}
+    source:
+      address: "{{ factoryV21 }}"
+      abi: LBFactoryV21
+      startBlock: {{ startBlockV21 }}
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.6
+      language: wasm/assemblyscript
+      entities:
+        - LBPairV21
+        - Token
+      abis:
+        - name: LBFactoryV21
+          file: ./abis/LBFactoryV21.json
+        - name: LBPairV21
+          file: ./abis/LBPairV21.json
+        - name: ERC20
+          file: ./abis/ERC20.json
+        - name: ERC20SymbolBytes
+          file: ./abis/ERC20SymbolBytes.json
+        - name: ERC20NameBytes
+          file: ./abis/ERC20NameBytes.json
+      eventHandlers:
+        - event: LBPairCreated(indexed address,indexed address,indexed uint256,address,uint256)
+          handler: handleLBPairCreatedV21
+      file: ./src/factory.ts
+
+  - kind: ethereum
+    name: LBPairV21 # v2.1 exchange
+    network: {{ network }}
+    source:
+      abi: LBPairV21
+      startBlock: {{ startBlockV21 }}
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.6
+      language: wasm/assemblyscript
+      entities:
+        - Candle
+        - LBPairV21
+        - Token
+      abis:
+        - name: LBPairV21
+          file: ./abis/LBPairV21.json
+        - name: ERC20
+          file: ./abis/ERC20.json
+        - name: ERC20SymbolBytes
+          file: ./abis/ERC20SymbolBytes.json
+        - name: ERC20NameBytes
+          file: ./abis/ERC20NameBytes.json
+      eventHandlers:
+        - event: Swap(indexed address,indexed address,uint24,bytes32,bytes32,uint24,bytes32,bytes32)
+          handler: handleSwapV21
+      file: ./src/dexcandles-v2.ts
